@@ -7,7 +7,7 @@
           <el-input v-model="loginForm.username" prefix-icon="icon-user-check" placeholder="请输入用户名"></el-input>
         </el-form-item>
         <el-form-item label prop="password">
-          <el-input v-model="loginForm.password" prefix-icon="icon-key" placeholder="请输入密码"></el-input>
+          <el-input v-model="loginForm.password" type="password" prefix-icon="icon-key" placeholder="请输入密码"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" class="login-btn" @click="login">登陆</el-button>
@@ -31,8 +31,8 @@ export default {
     }
     return {
       loginForm: {
-        username: '',
-        password: ''
+        username: '100869',
+        password: '123'
       },
       rules: {
         username: [
