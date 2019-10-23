@@ -24,18 +24,20 @@
         </el-form-item>
         <el-form-item label="内容：" v-if="addForm.type === 2">
           <!-- 上传视频文件 -->
-          <el-upload class="upload-demo" action="http://127.0.0.1:3000/upload">
+          <el-upload
+            class="upload-demo"
+            action="http://127.0.0.1:3000/upload"
+            :headers="getToken()"
+            :on-success="videoSuccess"
+          >
             <el-button size="small" type="primary">视频上传</el-button>
           </el-upload>
         </el-form-item>
         <el-form-item label="栏目：">
           <div style="border:1px solid #eee;padding-left:24px">
-            <el-checkbox
-              :indeterminate="isIndeterminate"
-              v-model="checkAll"
-            >全选</el-checkbox>
+            <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll">全选</el-checkbox>
             <div style="margin: 15px 0;"></div>
-            <el-checkbox-group v-model="checkedCate" >
+            <el-checkbox-group v-model="checkedCate">
               <el-checkbox v-for="item in cateList" :label="item.id" :key="item.id">{{item.name}}</el-checkbox>
             </el-checkbox-group>
           </div>
@@ -46,7 +48,7 @@
           </el-upload>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="add">立即发布</el-button>
+          <el-button type="primary">立即发布</el-button>
           <el-button>取消</el-button>
         </el-form-item>
       </el-form>
@@ -79,9 +81,10 @@ export default {
         uploadImage: {
           url: 'http://localhost:3000/upload',
           name: 'file',
+          headers: this.getToken(),
           // res是结果，insert方法会把内容注入到编辑器中，res.data.url是资源地址
           uploadSuccess (res, insert) {
-            insert('http://localhost:3000' + res.data.url)
+            insert('http://localhost:3000' + res.data.data.url)
           }
         },
 
@@ -89,8 +92,9 @@ export default {
         uploadVideo: {
           url: 'http://localhost:3000/upload',
           name: 'file',
+          headers: this.getToken(),
           uploadSuccess (res, insert) {
-            insert('http://localhost:3000' + res.data.url)
+            insert('http://localhost:3000' + res.data.data.url)
           }
         }
       }
@@ -106,8 +110,21 @@ export default {
     })
   },
   methods: {
-    add () {
-
+    // 获取 token
+    getToken () {
+      return {
+        Authorization: localStorage.getItem('heima_backstage_37_token')
+      }
+    },
+    // :on-success="函数"   当视频上传成功之后触发的钩子函数
+    videoSuccess (response, file, fileList) {
+      // console.log(response)
+      // console.log(file)
+      // console.log(fileList)
+      // 再次判断
+      if (this.addForm.type === 2) {
+        this.addForm.content = response.data.url
+      }
     }
   }
 }
