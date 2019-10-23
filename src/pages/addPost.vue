@@ -35,9 +35,13 @@
         </el-form-item>
         <el-form-item label="栏目：">
           <div style="border:1px solid #eee;padding-left:24px">
-            <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll">全选</el-checkbox>
+            <el-checkbox
+              :indeterminate="isIndeterminate"
+              v-model="checkAll"
+              @change="handleCheckAllChange"
+            >全选</el-checkbox>
             <div style="margin: 15px 0;"></div>
-            <el-checkbox-group v-model="checkedCate">
+            <el-checkbox-group v-model="checkedCate" @change="handleCheckedCitiesChange">
               <el-checkbox v-for="item in cateList" :label="item.id" :key="item.id">{{item.name}}</el-checkbox>
             </el-checkbox-group>
           </div>
@@ -54,7 +58,7 @@
           </el-upload>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary">立即发布</el-button>
+          <el-button type="primary" @click="add">立即发布</el-button>
           <el-button>取消</el-button>
         </el-form-item>
       </el-form>
@@ -147,6 +151,24 @@ export default {
           break
         }
       }
+    },
+    //   全选操作所触发的事件
+    // val:标记当前是否需要全选，为true说明需要全选
+    handleCheckAllChange (val) {
+      // console.log(val)
+      //   全选的实现方式为：让当前被选择的复选框(checkedCate)的值与数据源(cateList)一致
+      //   匹配的标准是匹配value值(:label所绑定的属性)
+      this.checkedCate = val ? this.cateList.map(value => {
+        return value.id
+      }) : []
+      this.isIndeterminate = false
+    },
+    // 单击单个的复选框选项
+    handleCheckedCitiesChange (value) {
+      let checkedCount = value.length
+      this.checkAll = checkedCount === this.cateList.length
+      this.isIndeterminate =
+        checkedCount > 0 && checkedCount < this.cateList.length
     }
   }
 }

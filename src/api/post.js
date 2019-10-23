@@ -14,3 +14,12 @@ export const getCateList = () => {
     url: '/category'
   })
 }
+
+// 实现文章的发布
+export const addPost = (data) => {
+  return axios({
+    method: 'post',
+    url: '/post',
+    data
+  })
+}
