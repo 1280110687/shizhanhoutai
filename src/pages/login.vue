@@ -38,7 +38,7 @@ export default {
         username: [
           // required:必填项  message:如果数据不符合规则所给出的提示信息  trigger：什么时候触发，失去焦点时触发  pattern:添加正则表达式
           { required: true, message: '请输入用户名', trigger: 'blur' },
-          { validator: usernamePass, min: 3, max: 8, trigger: 'blur' }
+          { validator: usernamePass, trigger: 'blur' }
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' },

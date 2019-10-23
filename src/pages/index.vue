@@ -29,7 +29,7 @@
               <i class="el-icon-tickets"></i>
               <span>文章管理</span>
             </span>
-            <el-menu-item index="2-1">
+            <el-menu-item index="postList">
               <i class="el-icon-document"></i>
               <span>文章列表</span>
             </el-menu-item>
