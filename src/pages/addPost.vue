@@ -68,7 +68,7 @@
 <script>
 import VueEditor from 'vue-word-editor'
 import 'quill/dist/quill.snow.css'
-import { getCateList } from '@/api/post.js'
+import { getCateList, addPost } from '@/api/post.js'
 export default {
   components: {
     VueEditor
@@ -169,6 +169,26 @@ export default {
       this.checkAll = checkedCount === this.cateList.length
       this.isIndeterminate =
         checkedCount > 0 && checkedCount < this.cateList.length
+    },
+    add () {
+      // 收集文章数据
+      if (this.addForm.type === 1) {
+        // 获取富文本  this.$refs.vueEditor.editor.root.innerHTML
+        // console.log(this.$refs.supertext.editor.root.innerHTML)
+        this.addForm.content = this.$refs.supertext.editor.root.innerHTML
+        //   由于后台接口的原因，需要对this.checkedCate进行数据改造
+        this.addForm.categories = this.checkedCate.map(value => {
+          return { id: value }
+        })
+        // console.log(this.addForm)
+        addPost(this.addForm).then(res => {
+          console.log(res)
+          if (res.status === 200) {
+            this.$message.success('文章发布成功')
+            this.$router.push({ name: 'PostList' })
+          }
+        })
+      }
     }
   }
 }
