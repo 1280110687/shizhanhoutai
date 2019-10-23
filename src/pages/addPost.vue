@@ -18,34 +18,35 @@
             <el-radio :label="2">视频</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="内容：">
-          <VueEditor :config="config"></VueEditor>
+        <el-form-item label="内容：" v-if="addForm.type === 1">
+          <!-- 富文本 -->
+          <VueEditor :config="config" ref="supertext"></VueEditor>
+        </el-form-item>
+        <el-form-item label="内容：" v-if="addForm.type === 2">
+          <!-- 上传视频文件 -->
+          <el-upload class="upload-demo" action="http://127.0.0.1:3000/upload">
+            <el-button size="small" type="primary">视频上传</el-button>
+          </el-upload>
         </el-form-item>
         <el-form-item label="栏目：">
-          <div style="border:1px solid #eee">
+          <div style="border:1px solid #eee;padding-left:24px">
             <el-checkbox
               :indeterminate="isIndeterminate"
               v-model="checkAll"
-              @change="handleCheckAllChange"
             >全选</el-checkbox>
             <div style="margin: 15px 0;"></div>
-            <el-checkbox-group v-model="checkedCate" @change="handleCheckedCitiesChange">
+            <el-checkbox-group v-model="checkedCate" >
               <el-checkbox v-for="item in cateList" :label="item.id" :key="item.id">{{item.name}}</el-checkbox>
             </el-checkbox-group>
           </div>
         </el-form-item>
         <el-form-item label="封面：">
-          <el-upload
-            action="https://jsonplaceholder.typicode.com/posts/"
-            list-type="picture-card"
-            :on-preview="handlePictureCardPreview"
-            :on-remove="handleRemove"
-          >
+          <el-upload action="http://127.0.0.1:3000/upload" list-type="picture-card">
             <i class="el-icon-plus"></i>
           </el-upload>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSubmit">立即发布</el-button>
+          <el-button type="primary" @click="add">立即发布</el-button>
           <el-button>取消</el-button>
         </el-form-item>
       </el-form>
@@ -55,6 +56,7 @@
 <script>
 import VueEditor from 'vue-word-editor'
 import 'quill/dist/quill.snow.css'
+import { getCateList } from '@/api/post.js'
 export default {
   components: {
     VueEditor
@@ -94,8 +96,17 @@ export default {
       }
     }
   },
+  mounted () {
+    getCateList().then(res => {
+      console.log(res)
+      if (res.status === 200) {
+        // 由于后台原因，需要将前面两个值（关注、头条）移除
+        this.cateList = res.data.data.splice(2)
+      }
+    })
+  },
   methods: {
-    onSubmit () {
+    add () {
 
     }
   }
