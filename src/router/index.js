@@ -8,6 +8,7 @@ import Login from '@/pages/login.vue'
 import Index from '@/pages/index.vue'
 import Welcome from '@/pages/welcome.vue'
 import PostList from '@/pages/postList.vue'
+import AddPost from '@/pages/addPost.vue'
 // 3.use
 Vue.use(VueRouter)
 
@@ -37,6 +38,11 @@ const router = new VueRouter({
           name: 'PostList',
           path: '/postList',
           component: PostList
+        },
+        {
+          name: 'AddPost',
+          path: '/addPost',
+          component: AddPost
         }
       ]
     }

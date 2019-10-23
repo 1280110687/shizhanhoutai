@@ -37,10 +37,10 @@
       @current-change="handleCurrentChange"
       :current-page="1"
       :page-sizes="sizes"
-      :page-size="2"
+      :page-size="4"
       layout="total, sizes, prev, pager, next, jumper"
-      :total="total">
-    </el-pagination>
+      :total="total"
+    ></el-pagination>
   </div>
 </template>
 <script>
@@ -54,7 +54,7 @@ export default {
       //  页码
       pageIndex: 1,
       //  每页记录数
-      pageSize: 2
+      pageSize: 4
     }
   },
   methods: {

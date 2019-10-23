@@ -6,7 +6,7 @@
         <img src="../assets/logo.png" alt class="logo" />
         <el-menu
           :router="true"
-          :default-active='"1-1"'
+          :default-active="'postList'"
           :unique-opened="true"
           class="el-menu-vertical-demo"
           background-color="#545c64"
@@ -33,7 +33,7 @@
               <i class="el-icon-document"></i>
               <span>文章列表</span>
             </el-menu-item>
-            <el-menu-item index="2-2">
+            <el-menu-item index="addPost">
               <i class="el-icon-edit"></i>
               <span>文章发布</span>
             </el-menu-item>
