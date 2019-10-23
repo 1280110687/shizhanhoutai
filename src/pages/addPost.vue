@@ -43,7 +43,13 @@
           </div>
         </el-form-item>
         <el-form-item label="封面：">
-          <el-upload action="http://127.0.0.1:3000/upload" list-type="picture-card">
+          <el-upload
+            action="http://127.0.0.1:3000/upload"
+            list-type="picture-card"
+            :headers="getToken()"
+            :on-success="imgSuccess"
+            :on-remove="imgRemove"
+          >
             <i class="el-icon-plus"></i>
           </el-upload>
         </el-form-item>
@@ -124,6 +130,22 @@ export default {
       // 再次判断
       if (this.addForm.type === 2) {
         this.addForm.content = response.data.url
+      }
+    },
+    // 封面上传成功触发的操作
+    imgSuccess (response) {
+      console.log(response)
+      this.addForm.cover.push({ id: response.data.id })
+    },
+    //   移除图片时所触发的操作
+    imgRemove (file, fileList) {
+      // file 就是删除的文件对象
+      let id = file.response.data.id
+      for (let i = 0; i < this.addForm.cover.length; i++) {
+        if (id === this.addForm.cover[i].id) {
+          this.addForm.cover.splice(i, 1)
+          break
+        }
       }
     }
   }
